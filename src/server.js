@@ -12,8 +12,17 @@ const prisma = new PrismaClient();
 app.use(cors());
 app.use(express.json());
 
-// Documentação Swagger interativa
+// Rota raiz para boas-vindas e redirecionamento
+app.get("/", (req, res) => {
+  return res.status(200).json({
+    message: "API DevShowcase ativa em produção!",
+    documentation: "/api/docs/"
+  });
+});
+
+// Documentação Swagger com suporte a trailing slash
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.get("/api/docs", (req, res) => res.redirect("/api/docs/"));
 
 // 1. GET /api/projects (Filtro por tecnologia e paginação)
 app.get("/api/projects", async (req, res, next) => {
@@ -156,7 +165,6 @@ app.post("/api/projects/:id/feedbacks", async (req, res, next) => {
 // Manipulador global de erros
 app.use(errorHandler);
 
-// Inicialização com bind explícito em 0.0.0.0
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Servidor rodando na porta ${PORT}`);
