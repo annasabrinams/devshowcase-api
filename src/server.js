@@ -49,7 +49,7 @@ app.get("/api/projects", async (req, res, next) => {
   }
 });
 
-// POST /api/projects (Criar projeto auxiliar para testes)
+// POST /api/projects (Criar projeto auxiliar)
 app.post("/api/projects", async (req, res, next) => {
   try {
     const { title, description, technology } = req.body;
@@ -156,7 +156,7 @@ app.post("/api/projects/:id/feedbacks", async (req, res, next) => {
 // Manipulador global de erros
 app.use(errorHandler);
 
-// Configuração para porta dinâmica do Render escutando em 0.0.0.0
+// Inicialização com bind explícito em 0.0.0.0
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Servidor rodando na porta ${PORT}`);
