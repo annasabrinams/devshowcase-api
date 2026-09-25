@@ -1,39 +1,20 @@
 {
   "name": "devshowcase-api",
   "version": "1.0.0",
-  "description": "Backend da plataforma DevShowcase API",
-  "main": "index.js",
+  "main": "src/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "prisma skills sync || exit 0",
-    "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate dev"
+    "start": "prisma migrate deploy && node src/server.js",
+    "dev": "node src/server.js",
+    "postinstall": "prisma generate"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/annasabrinams/devshowcase-api.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/annasabrinams/devshowcase-api/issues"
-  },
-  "homepage": "https://github.com/annasabrinams/devshowcase-api#readme",
   "dependencies": {
-    "cors": "^2.8.6",
-    "dotenv": "^18.0.3",
-    "express": "^5.2.1",
-    "zod": "^4.6.5"
+    "@prisma/client": "^5.22.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "swagger-ui-express": "^5.0.0"
   },
   "devDependencies": {
-    "@prisma/client": "5.22.0",
-    "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.6",
-    "@types/node": "^26.6.2",
-    "prisma": "5.22.0",
-    "tsx": "^4.23.15",
-    "typescript": "^5.9.3"
+    "prisma": "^5.22.0"
   }
 }

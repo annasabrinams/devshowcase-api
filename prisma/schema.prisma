@@ -1,44 +1,28 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
 generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
-}
-
-model Profile {
-  id        String    @id @default(uuid())
-  name      String
-  email     String    @unique
-  bio       String?
-  projects  Project[]
-  createdAt DateTime  @default(now())
-}
-
 model Project {
-  id            String       @id @default(uuid())
+  id            Int        @id @default(autoincrement())
   title         String
   description   String
-  repositoryUrl String
-  profileId     String
-  profile       Profile      @relation(fields: [profileId], references: [id], onDelete: Cascade)
-  technologies  Technology[]
+  technology    String
+  upvotes       Int        @default(0)
+  averageRating Float      @default(0.0)
+  createdAt     DateTime   @default(now())
   feedbacks     Feedback[]
-  createdAt     DateTime     @default(now())
-}
-
-model Technology {
-  id       String    @id @default(uuid())
-  name     String    @unique
-  projects Project[]
 }
 
 model Feedback {
-  id        String   @id @default(uuid())
-  comment   String
+  id        Int      @id @default(autoincrement())
   rating    Int
-  projectId String
-  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  comment   String
   createdAt DateTime @default(now())
+  projectId Int
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
 }

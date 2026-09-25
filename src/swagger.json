@@ -1,0 +1,75 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "DevShowcase API",
+    "version": "1.0.0",
+    "description": "Documentação interativa da API DevShowcase em produção"
+  },
+  "paths": {
+    "/api/projects": {
+      "get": {
+        "summary": "Buscar projetos com filtro por tecnologia e paginação",
+        "parameters": [
+          { "name": "technology", "in": "query", "schema": { "type": "string" } },
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "default": 5 } }
+        ],
+        "responses": { "200": { "description": "Lista de projetos retornada com sucesso" } }
+      },
+      "post": {
+        "summary": "Cadastrar novo projeto",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": { "type": "string" },
+                  "description": { "type": "string" },
+                  "technology": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Projeto cadastrado com sucesso" } }
+      }
+    },
+    "/api/projects/{id}/upvote": {
+      "put": {
+        "summary": "Atualizar as curtidas/estrelas incrementando-as",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": {
+          "200": { "description": "Upvote registrado com sucesso" },
+          "404": { "description": "Projeto não encontrado" }
+        }
+      }
+    },
+    "/api/projects/{id}/feedbacks": {
+      "post": {
+        "summary": "Cadastrar nota de 1 a 5 e comentário com cálculo de média",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "rating": { "type": "integer", "example": 5 },
+                  "comment": { "type": "string", "example": "Excelente projeto!" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Feedback registrado e nota média recalculada" },
+          "400": { "description": "Erro de validação (nota fora de 1 a 5 ou comentário ausente)" },
+          "404": { "description": "Projeto não encontrado" }
+        }
+      }
+    }
+  }
+}
